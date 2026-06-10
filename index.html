@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt-PT">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>babuu productions — Contamos a sua história no nosso filme</title>
+<title>babuu productions — Produtora Audiovisual em Lisboa | Documentários, Branded Content & Institucionais</title>
 <meta name="description" content="Produtora audiovisual em Lisboa. Documentários, branded content e vídeos institucionais para marcas como EDP, IKEA, CNN Portugal e Harley-Davidson.">
 <link rel="icon" href="https://static.wixstatic.com/media/b8b381_c83e4b24e2a84304bea900b182cedd06~mv2.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,6 +15,7 @@
   --surface:#111113;
   --elevated:#1a1a1f;
   --border:#232328;
+  --border-strong:#36363d;
   --text:#f5f5f4;
   --muted:#a1a19c;
   --faint:#6b6b66;
@@ -29,18 +30,46 @@ html{scroll-behavior:smooth}
   *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
 }
 body{
-  background:var(--bg);
-  color:var(--text);
-  font-family:var(--font-body);
-  font-size:16px;
-  line-height:1.6;
-  -webkit-font-smoothing:antialiased;
-  overflow-x:hidden;
+  background:var(--bg);color:var(--text);
+  font-family:var(--font-body);font-size:16px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
 }
 ::selection{background:var(--rec);color:#fff}
 img{display:block;max-width:100%}
 a{color:inherit;text-decoration:none}
+button{font-family:inherit}
 .wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+
+/* ---------- film grain ---------- */
+body::after{
+  content:"";position:fixed;inset:-50%;width:200%;height:200%;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.35'/%3E%3C/svg%3E");
+  opacity:.04;pointer-events:none;z-index:9990;
+  animation:grain 8s steps(10) infinite;
+}
+@keyframes grain{
+  0%,100%{transform:translate(0,0)}10%{transform:translate(-5%,-10%)}
+  20%{transform:translate(-15%,5%)}30%{transform:translate(7%,-25%)}
+  40%{transform:translate(-5%,25%)}50%{transform:translate(-15%,10%)}
+  60%{transform:translate(15%,0)}70%{transform:translate(0,15%)}
+  80%{transform:translate(3%,35%)}90%{transform:translate(-10%,10%)}
+}
+
+/* ---------- preloader ---------- */
+#loader{
+  position:fixed;inset:0;background:var(--bg);z-index:10000;
+  display:flex;align-items:center;justify-content:center;
+  transition:opacity .5s ease,visibility .5s;
+}
+#loader.done{opacity:0;visibility:hidden}
+#loader .word{font-family:var(--font-display);font-weight:800;font-size:clamp(40px,8vw,88px);letter-spacing:-.03em;overflow:hidden;display:flex}
+#loader .word span{display:inline-block;transform:translateY(110%);animation:rise .7s cubic-bezier(.22,1,.36,1) forwards}
+#loader .word span:nth-child(2){animation-delay:.04s}
+#loader .word span:nth-child(3){animation-delay:.08s}
+#loader .word span:nth-child(4){animation-delay:.12s}
+#loader .word span:nth-child(5){animation-delay:.16s}
+#loader .rec{width:14px;height:14px;border-radius:50%;background:var(--rec);align-self:center;margin-left:18px;animation:pulse 1.2s ease-in-out infinite}
+@keyframes rise{to{transform:translateY(0)}}
 
 /* ---------- header ---------- */
 header{
@@ -58,39 +87,55 @@ header.scrolled{background:rgba(10,10,11,.85);backdrop-filter:blur(12px);border-
   display:inline-flex;align-items:center;gap:10px;
   font-family:var(--font-display);font-weight:600;font-size:14px;
   padding:12px 22px;border-radius:8px;border:1px solid var(--border);
-  background:var(--text);color:var(--bg);
+  background:var(--text);color:var(--bg);cursor:pointer;
   transition:transform .15s cubic-bezier(.2,.9,.3,1.3),background .15s ease;
 }
 .btn:hover{background:#fff}
 .btn:active{transform:scale(.97)}
 .btn.ghost{background:transparent;color:var(--text)}
 .btn.ghost:hover{border-color:var(--faint)}
-.rec-dot{width:8px;height:8px;border-radius:50%;background:var(--rec);animation:pulse 2s ease-in-out infinite}
+.rec-dot{width:8px;height:8px;border-radius:50%;background:var(--rec);animation:pulse 2s ease-in-out infinite;flex-shrink:0}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
 
 /* ---------- hero ---------- */
-.hero{position:relative;min-height:100svh;display:flex;align-items:flex-end;padding-bottom:9vh}
+.hero{position:relative;min-height:100svh;display:flex;align-items:flex-end;padding-bottom:8vh}
 .hero-bg{position:absolute;inset:0;overflow:hidden}
-.hero-bg img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) brightness(.55)}
-.hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,10,11,.55) 0%,rgba(10,10,11,.25) 45%,var(--bg) 100%)}
+.hero-bg img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) brightness(.5);transform:scale(1.06);animation:heroSettle 2.4s cubic-bezier(.16,1,.3,1) forwards}
+@keyframes heroSettle{to{transform:scale(1)}}
+.hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,10,11,.55) 0%,rgba(10,10,11,.2) 45%,var(--bg) 100%)}
 .hero-content{position:relative;z-index:1}
-.hero-kicker{display:flex;align-items:center;gap:10px;font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:20px}
+.hero-kicker{display:flex;align-items:center;gap:10px;font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:22px}
 .hero h1{
-  font-family:var(--font-display);font-weight:700;
-  font-size:clamp(40px,7.2vw,92px);line-height:1.02;letter-spacing:-.02em;
-  max-width:14ch;
+  font-family:var(--font-display);font-weight:800;
+  font-size:clamp(44px,8.4vw,118px);line-height:.98;letter-spacing:-.03em;
+  max-width:13ch;
 }
-.hero h1 em{font-style:normal;color:var(--muted)}
-.hero-sub{margin-top:24px;font-size:clamp(16px,1.6vw,19px);color:var(--muted);max-width:46ch}
-.hero-actions{margin-top:36px;display:flex;gap:14px;flex-wrap:wrap}
-.reveal{opacity:0;transform:translateY(18px);transition:opacity .55s ease,transform .55s cubic-bezier(.16,1,.3,1)}
+.hero h1 .outline{-webkit-text-stroke:1.5px var(--text);color:transparent}
+.hero h1 em{font-style:normal;color:var(--rec)}
+.hero-sub{margin-top:26px;font-size:clamp(16px,1.6vw,19px);color:var(--muted);max-width:48ch}
+.hero-actions{margin-top:38px;display:flex;gap:14px;flex-wrap:wrap}
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s cubic-bezier(.16,1,.3,1)}
 .reveal.in{opacity:1;transform:none}
+
+/* ---------- marquee ---------- */
+.marquee{
+  border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  padding:20px 0;overflow:hidden;white-space:nowrap;background:var(--surface);
+}
+.marquee-track{display:inline-flex;gap:56px;animation:scroll 30s linear infinite}
+.marquee-track span{
+  font-family:var(--font-display);font-weight:600;font-size:17px;
+  color:var(--faint);letter-spacing:.06em;text-transform:uppercase;
+  display:inline-flex;align-items:center;gap:56px;
+}
+.marquee-track span::after{content:"";width:7px;height:7px;border-radius:50%;background:var(--rec);opacity:.7}
+@keyframes scroll{to{transform:translateX(-50%)}}
 
 /* ---------- sections ---------- */
 section{padding:110px 0}
 .sec-head{margin-bottom:56px}
-.sec-kicker{font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--rec);font-weight:600;margin-bottom:14px}
-.sec-head h2{font-family:var(--font-display);font-weight:700;font-size:clamp(28px,3.6vw,44px);letter-spacing:-.015em;line-height:1.1}
+.sec-kicker{display:flex;align-items:center;gap:10px;font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--rec);font-weight:600;margin-bottom:14px}
+.sec-head h2{font-family:var(--font-display);font-weight:700;font-size:clamp(28px,3.8vw,48px);letter-spacing:-.02em;line-height:1.08}
 .sec-head p{margin-top:14px;color:var(--muted);max-width:56ch}
 
 /* ---------- o que fazemos ---------- */
@@ -116,15 +161,12 @@ section{padding:110px 0}
   background:var(--surface);border:1px solid var(--border);
   transition:transform .25s cubic-bezier(.16,1,.3,1),border-color .2s ease;
 }
-.card:hover{transform:translateY(-4px);border-color:#36363d}
+.card:hover{transform:translateY(-4px);border-color:var(--border-strong)}
 .card.hidden{display:none}
 .thumb{position:relative;aspect-ratio:16/9;overflow:hidden}
 .thumb img{width:100%;height:100%;object-fit:cover;filter:grayscale(.45) contrast(1.05);transition:filter .35s ease,transform .45s cubic-bezier(.16,1,.3,1)}
 .card:hover .thumb img{filter:grayscale(0);transform:scale(1.04)}
-.play{
-  position:absolute;inset:0;display:grid;place-items:center;
-  background:linear-gradient(180deg,transparent 40%,rgba(10,10,11,.55));
-}
+.play{position:absolute;inset:0;display:grid;place-items:center;background:linear-gradient(180deg,transparent 40%,rgba(10,10,11,.55))}
 .play span{
   width:54px;height:54px;border-radius:50%;display:grid;place-items:center;
   background:rgba(10,10,11,.65);border:1px solid rgba(255,255,255,.25);backdrop-filter:blur(6px);
@@ -160,13 +202,30 @@ section{padding:110px 0}
   display:flex;align-items:flex-end;border:1px solid var(--border);
 }
 .servico img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1) brightness(.5);transition:filter .4s ease,transform .5s cubic-bezier(.16,1,.3,1)}
-.servico:hover img{filter:grayscale(1) brightness(.65);transform:scale(1.03)}
-.servico-info{position:relative;z-index:1;padding:28px;background:linear-gradient(180deg,transparent,rgba(10,10,11,.85));width:100%}
+.servico:hover img{filter:grayscale(.2) brightness(.65);transform:scale(1.03)}
+.servico-info{position:relative;z-index:1;padding:28px;background:linear-gradient(180deg,transparent,rgba(10,10,11,.88));width:100%}
 .servico-info h3{font-family:var(--font-display);font-size:20px;font-weight:600}
 .servico-info p{font-size:14px;color:var(--muted);margin-top:6px;max-width:48ch}
 .servico.full{grid-column:1/-1;min-height:340px}
 .cap-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
 .cap{font-size:12.5px;color:var(--text);background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:99px;padding:5px 14px;backdrop-filter:blur(4px)}
+
+/* ---------- processo ---------- */
+.processo{padding-top:0}
+.passos{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.passo{
+  border:1px solid var(--border);border-radius:12px;padding:28px;background:var(--surface);
+  transition:border-color .25s ease,transform .25s ease;position:relative;
+}
+.passo:hover{border-color:var(--border-strong);transform:translateY(-4px)}
+.passo .num{
+  font-family:var(--font-display);font-weight:800;font-size:52px;line-height:1;
+  color:transparent;-webkit-text-stroke:1px var(--border-strong);display:block;margin-bottom:20px;
+  transition:-webkit-text-stroke .25s ease;
+}
+.passo:hover .num{-webkit-text-stroke:1px var(--rec)}
+.passo h3{font-family:var(--font-display);font-size:18px;font-weight:600;margin-bottom:8px}
+.passo p{font-size:14px;color:var(--muted)}
 
 /* ---------- clientes ---------- */
 .clientes{padding:90px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
@@ -186,7 +245,8 @@ section{padding:110px 0}
   content:'';position:absolute;right:-120px;top:-120px;width:380px;height:380px;border-radius:50%;
   background:radial-gradient(circle,rgba(229,72,63,.14),transparent 65%);pointer-events:none;
 }
-.contato-box h2{font-family:var(--font-display);font-size:clamp(26px,3.4vw,40px);font-weight:700;letter-spacing:-.015em;line-height:1.15}
+.contato-box h2{font-family:var(--font-display);font-size:clamp(26px,3.4vw,42px);font-weight:700;letter-spacing:-.015em;line-height:1.12}
+.contato-box h2 em{font-style:normal;color:var(--rec)}
 .contato-box .sub{color:var(--muted);margin-top:14px;max-width:44ch}
 .contato-canais{display:flex;flex-direction:column;gap:14px}
 .canal{
@@ -221,15 +281,21 @@ footer{padding:56px 0 40px;border-top:1px solid var(--border)}
   .servicos{grid-template-columns:1fr}
   .logos{grid-template-columns:repeat(2,1fr)}
   .contato-box{grid-template-columns:1fr}
+  .passos{grid-template-columns:repeat(2,1fr)}
   .nav-links li.hide-m{display:none}
   section{padding:80px 0}
 }
 @media(max-width:560px){
   .grid{grid-template-columns:1fr}
+  .passos{grid-template-columns:1fr}
 }
 </style>
 </head>
 <body>
+
+<div id="loader" aria-hidden="true">
+  <div class="word"><span>b</span><span>a</span><span>b</span><span>u</span><span>u</span><span class="rec"></span></div>
+</div>
 
 <header id="header">
   <div class="wrap nav">
@@ -252,15 +318,22 @@ footer{padding:56px 0 40px;border-top:1px solid var(--border)}
   </div>
   <div class="wrap hero-content">
     <div class="hero-kicker reveal"><span class="rec-dot"></span> PRODUTORA AUDIOVISUAL · LISBOA</div>
-    <h1 class="reveal" style="transition-delay:.08s">Contamos a sua história <em>no nosso filme.</em></h1>
+    <h1 class="reveal" style="transition-delay:.08s">Contamos a <span class="outline">sua</span> história no nosso <em>filme.</em></h1>
     <p class="hero-sub reveal" style="transition-delay:.16s">Documentários, branded content e vídeos institucionais — da ideia ao corte final, com a mesma equipa que filma para EDP, IKEA, CNN Portugal e Harley-Davidson.</p>
     <div class="hero-actions reveal" style="transition-delay:.24s">
       <button class="btn" data-video="qmwY3-W0iL0">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
         Ver o reel
       </button>
       <a class="btn ghost" href="#trabalhos">Explorar trabalhos</a>
     </div>
+  </div>
+</div>
+
+<!-- MARQUEE -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>Documentários</span><span>Branded Content</span><span>Séries</span><span>Institucionais</span><span>Filmagem Aérea</span><span>Subaquática</span><span>Documentários</span><span>Branded Content</span><span>Séries</span><span>Institucionais</span><span>Filmagem Aérea</span><span>Subaquática</span>
   </div>
 </div>
 
@@ -464,12 +537,28 @@ footer{padding:56px 0 40px;border-top:1px solid var(--border)}
   </div>
 </section>
 
+<!-- PROCESSO -->
+<section class="processo">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-kicker">Como trabalhamos</div>
+      <h2>Quatro passos, zero ruído.</h2>
+    </div>
+    <div class="passos">
+      <div class="passo reveal"><span class="num">01</span><h3>Conversa</h3><p>Ouvimos o que precisa de contar e porquê. Sem brief? Construímos juntos.</p></div>
+      <div class="passo reveal" style="transition-delay:.08s"><span class="num">02</span><h3>Conceito</h3><p>Tratamento criativo, referências e proposta fechada — formato, prazo e orçamento.</p></div>
+      <div class="passo reveal" style="transition-delay:.16s"><span class="num">03</span><h3>Rodagem</h3><p>A equipa certa para a escala certa. Do plano sequência ao drone, tudo com intenção.</p></div>
+      <div class="passo reveal" style="transition-delay:.24s"><span class="num">04</span><h3>Entrega</h3><p>Montagem, cor, som e versões para cada plataforma. Pronto a publicar.</p></div>
+    </div>
+  </div>
+</section>
+
 <!-- CLIENTES -->
 <section class="clientes" id="clientes">
   <div class="wrap">
     <div class="sec-head reveal" style="margin-bottom:44px">
       <div class="sec-kicker">Clientes</div>
-      <h2>Marcas que já confiaram a história a nós.</h2>
+      <h2>Marcas que já nos confiaram a história.</h2>
     </div>
     <div class="logos reveal">
       <div class="logo-cell"><img loading="lazy" src="https://static.wixstatic.com/media/b8b381_f89aea76be3d48f1aedfa066dc65f1d8~mv2.png/v1/fit/w_300,h_200,q_90/edp.png" alt="EDP"></div>
@@ -489,21 +578,21 @@ footer{padding:56px 0 40px;border-top:1px solid var(--border)}
   <div class="wrap">
     <div class="contato-box reveal">
       <div>
-        <div class="sec-kicker"><span class="rec-dot" style="display:inline-block;vertical-align:middle;margin-right:8px"></span>Vamos filmar</div>
-        <h2>Tem uma história?<br>Nós temos a câmara.</h2>
+        <div class="sec-kicker"><span class="rec-dot"></span>Vamos filmar</div>
+        <h2>Tem uma história?<br><em>Nós temos a câmara.</em></h2>
         <p class="sub">Conte-nos a ideia em duas linhas. Respondemos com uma proposta clara: formato, prazo e orçamento.</p>
       </div>
       <div class="contato-canais">
         <a class="canal" href="mailto:contact@babuu.productions">
-          <span class="ic"><svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg></span>
+          <span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg></span>
           <span><b>contact@babuu.productions</b><span>Resposta em até 24h úteis</span></span>
         </a>
         <a class="canal" href="https://wa.me/351939512688" target="_blank" rel="noopener">
-          <span class="ic"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.4 14.1c-.2.7-1.3 1.3-1.8 1.3-.5.1-1 .2-3.4-.7-2.9-1.2-4.7-4.1-4.9-4.3-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5s.8 1.9.8 2c.1.1.1.3 0 .5l-.4.6c-.2.2-.3.4-.1.7.1.3.7 1.2 1.6 1.9 1.1.9 2 1.2 2.3 1.4.3.1.5.1.6-.1.2-.2.7-.8.9-1.1.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.7-.3 1.7z"/></svg></span>
+          <span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.4 14.1c-.2.7-1.3 1.3-1.8 1.3-.5.1-1 .2-3.4-.7-2.9-1.2-4.7-4.1-4.9-4.3-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5s.8 1.9.8 2c.1.1.1.3 0 .5l-.4.6c-.2.2-.3.4-.1.7.1.3.7 1.2 1.6 1.9 1.1.9 2 1.2 2.3 1.4.3.1.5.1.6-.1.2-.2.7-.8.9-1.1.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.7-.3 1.7z"/></svg></span>
           <span><b>+351 939 512 688</b><span>WhatsApp direto com a produção</span></span>
         </a>
         <a class="canal" href="https://instagram.com/babuu.productions" target="_blank" rel="noopener">
-          <span class="ic"><svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.8.2 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.2 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.8-.2-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1-.4-2.2-.1-1.3-.1-1.7-.1-4.9s0-3.6.1-4.9c.1-1.2.2-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4 1.3-.1 1.7-.1 4.9-.1zm0 1.8c-3.1 0-3.5 0-4.8.1-1.1.1-1.5.2-1.9.3-.5.2-.8.4-1.1.7-.3.3-.6.7-.7 1.1-.1.4-.3.8-.3 1.9-.1 1.3-.1 1.6-.1 4.8s0 3.5.1 4.8c.1 1.1.2 1.5.3 1.9.2.5.4.8.7 1.1.3.3.7.6 1.1.7.4.1.8.3 1.9.3 1.3.1 1.6.1 4.8.1s3.5 0 4.8-.1c1.1-.1 1.5-.2 1.9-.3.5-.2.8-.4 1.1-.7.3-.3.6-.7.7-1.1.1-.4.3-.8.3-1.9.1-1.3.1-1.6.1-4.8s0-3.5-.1-4.8c-.1-1.1-.2-1.5-.3-1.9-.2-.5-.4-.8-.7-1.1-.3-.3-.7-.6-1.1-.7-.4-.1-.8-.3-1.9-.3-1.3-.1-1.6-.1-4.8-.1zm0 3.1a5 5 0 1 1 0 9.9 5 5 0 0 1 0-9.9zm0 8.1a3.2 3.2 0 1 0 0-6.3 3.2 3.2 0 0 0 0 6.3zm6.3-8.3a1.2 1.2 0 1 1-2.3 0 1.2 1.2 0 0 1 2.3 0z"/></svg></span>
+          <span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.8.2 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.2 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.8-.2-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1-.4-2.2-.1-1.3-.1-1.7-.1-4.9s0-3.6.1-4.9c.1-1.2.2-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4 1.3-.1 1.7-.1 4.9-.1zm0 4.9a5 5 0 1 0 0 9.9 5 5 0 0 0 0-9.9zm6.3-1.1a1.2 1.2 0 1 1-2.3 0 1.2 1.2 0 0 1 2.3 0zM12 9a3.2 3.2 0 1 1 0 6.3A3.2 3.2 0 0 1 12 9z"/></svg></span>
           <span><b>@babuu.productions</b><span>Bastidores e novos projetos</span></span>
         </a>
       </div>
@@ -515,7 +604,7 @@ footer{padding:56px 0 40px;border-top:1px solid var(--border)}
   <div class="wrap foot">
     <div class="foot-left">
       <img src="https://static.wixstatic.com/media/b8b381_6de5824e1d6e4a35b082f26e4c947ff0~mv2.png/v1/fit/w_240,h_64,q_90/logo.png" alt="babuu productions">
-      <p>© <span id="year"></span> babuu productions · Lisboa, Portugal</p>
+      <p>© <span id="year"></span> babuu productions · Lisboa, Portugal · <a href="sistema.html" style="color:var(--faint);border-bottom:1px solid var(--border)">studio</a></p>
     </div>
     <div class="socials">
       <a href="https://instagram.com/babuu.productions" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.8.2 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.2 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.8-.2-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1-.4-2.2-.1-1.3-.1-1.7-.1-4.9s0-3.6.1-4.9c.1-1.2.2-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4 1.3-.1 1.7-.1 4.9-.1zm0 4.9a5 5 0 1 0 0 9.9 5 5 0 0 0 0-9.9zm6.3-1.1a1.2 1.2 0 1 1-2.3 0 1.2 1.2 0 0 1 2.3 0zM12 9a3.2 3.2 0 1 1 0 6.3A3.2 3.2 0 0 1 12 9z"/></svg></a>
@@ -533,6 +622,11 @@ footer{padding:56px 0 40px;border-top:1px solid var(--border)}
 </div>
 
 <script>
+// preloader
+addEventListener('load', () => {
+  setTimeout(() => document.getElementById('loader').classList.add('done'), 800);
+});
+
 // header scroll
 const header = document.getElementById('header');
 addEventListener('scroll', () => header.classList.toggle('scrolled', scrollY > 30), {passive:true});
