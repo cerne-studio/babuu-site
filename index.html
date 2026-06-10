@@ -111,10 +111,10 @@ header.scrolled{background:rgba(10,10,11,.85);backdrop-filter:blur(12px);border-
   max-width:13ch;
 }
 .hero h1 .outline{-webkit-text-stroke:1.5px var(--text);color:transparent}
-.hero h1 em{font-style:normal;color:var(--rec)}
+.hero h1 em{font-style:normal;color:var(--muted)}
 .hero-sub{margin-top:26px;font-size:clamp(16px,1.6vw,19px);color:var(--muted);max-width:48ch}
 .hero-actions{margin-top:38px;display:flex;gap:14px;flex-wrap:wrap}
-.reveal{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s cubic-bezier(.16,1,.3,1)}
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .85s ease,transform .85s cubic-bezier(.16,1,.3,1)}
 .reveal.in{opacity:1;transform:none}
 
 /* ---------- marquee ---------- */
@@ -284,10 +284,25 @@ footer{padding:56px 0 40px;border-top:1px solid var(--border)}
   .passos{grid-template-columns:repeat(2,1fr)}
   .nav-links li.hide-m{display:none}
   section{padding:80px 0}
+  .clientes{padding:72px 0}
 }
 @media(max-width:560px){
+  section{padding:56px 0}
+  .clientes{padding:56px 0}
   .grid{grid-template-columns:1fr}
   .passos{grid-template-columns:1fr}
+  .servico{min-height:220px}
+  .servico.full{min-height:240px}
+  .logo-cell{padding:22px 14px}
+  .logo-cell img{max-height:32px;max-width:90px}
+  .hero{padding-bottom:6vh}
+  .hero-sub{font-size:15px}
+  .hero-actions{gap:10px}
+  .btn{font-size:13px;padding:11px 18px}
+  .contato-box{padding:32px 20px}
+  .foot{flex-direction:column;align-items:flex-start;gap:20px}
+  .sec-head{margin-bottom:36px}
+  .cap-list{gap:6px}
 }
 </style>
 </head>
@@ -314,13 +329,18 @@ footer{padding:56px 0 40px;border-top:1px solid var(--border)}
 <!-- HERO -->
 <div class="hero">
   <div class="hero-bg">
-    <img src="https://static.wixstatic.com/media/b8b381_2ad490f7706b49dbbd0ecb6afe325ba9~mv2.jpg/v1/fit/w_1920,h_1280,q_85/hero.jpg" alt="Equipa babuu a filmar nas dunas">
+    <img src="https://static.wixstatic.com/media/b8b381_2ad490f7706b49dbbd0ecb6afe325ba9~mv2.jpg/v1/fit/w_1920,h_1280,q_85/hero.jpg"
+         srcset="https://static.wixstatic.com/media/b8b381_2ad490f7706b49dbbd0ecb6afe325ba9~mv2.jpg/v1/fit/w_640,h_960,q_80/hero.jpg 640w,
+                 https://static.wixstatic.com/media/b8b381_2ad490f7706b49dbbd0ecb6afe325ba9~mv2.jpg/v1/fit/w_960,h_1280,q_82/hero.jpg 960w,
+                 https://static.wixstatic.com/media/b8b381_2ad490f7706b49dbbd0ecb6afe325ba9~mv2.jpg/v1/fit/w_1920,h_1280,q_85/hero.jpg 1920w"
+         sizes="100vw"
+         alt="Equipa babuu a filmar nas dunas">
   </div>
   <div class="wrap hero-content">
-    <div class="hero-kicker reveal"><span class="rec-dot"></span> PRODUTORA AUDIOVISUAL · LISBOA</div>
-    <h1 class="reveal" style="transition-delay:.08s">Contamos a <span class="outline">sua</span> história no nosso <em>filme.</em></h1>
-    <p class="hero-sub reveal" style="transition-delay:.16s">Documentários, branded content e vídeos institucionais — da ideia ao corte final, com a mesma equipa que filma para EDP, IKEA, CNN Portugal e Harley-Davidson.</p>
-    <div class="hero-actions reveal" style="transition-delay:.24s">
+    <div class="hero-kicker reveal" style="transition-delay:.25s"><span class="rec-dot"></span> PRODUTORA AUDIOVISUAL · LISBOA</div>
+    <h1 class="reveal" style="transition-delay:.55s">Contamos a sua história <em>no nosso filme.</em></h1>
+    <p class="hero-sub reveal" style="transition-delay:.85s">Documentários, branded content e vídeos institucionais — da ideia ao corte final, com a mesma equipa que filma para EDP, IKEA, CNN Portugal e Harley-Davidson.</p>
+    <div class="hero-actions reveal" style="transition-delay:1.15s">
       <button class="btn" data-video="qmwY3-W0iL0">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
         Ver o reel
@@ -634,7 +654,7 @@ addEventListener('scroll', () => header.classList.toggle('scrolled', scrollY > 3
 // reveal on scroll
 const io = new IntersectionObserver(entries => {
   entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
-}, {threshold:.12});
+}, {threshold:.06});
 document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
 // filtros
