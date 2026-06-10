@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>babuu productions — Contamos a sua história no nosso filme</title>
+<meta name="description" content="Produtora audiovisual em Lisboa. Documentários, branded content e vídeos institucionais para marcas como EDP, IKEA, CNN Portugal e Harley-Davidson.">
+<link rel="icon" href="https://static.wixstatic.com/media/b8b381_c83e4b24e2a84304bea900b182cedd06~mv2.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Geist:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0a0b;
+  --surface:#111113;
+  --elevated:#1a1a1f;
+  --border:#232328;
+  --text:#f5f5f4;
+  --muted:#a1a19c;
+  --faint:#6b6b66;
+  --rec:#e5483f;
+  --font-display:'Sora',sans-serif;
+  --font-body:'Geist',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--font-body);
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+::selection{background:var(--rec);color:#fff}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+
+/* ---------- header ---------- */
+header{
+  position:fixed;top:0;left:0;right:0;z-index:50;
+  transition:background .25s ease,border-color .25s ease;
+  border-bottom:1px solid transparent;
+}
+header.scrolled{background:rgba(10,10,11,.85);backdrop-filter:blur(12px);border-bottom-color:var(--border)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:72px}
+.nav-logo img{height:26px;width:auto}
+.nav-links{display:flex;align-items:center;gap:32px;list-style:none}
+.nav-links a{font-size:14px;color:var(--muted);transition:color .15s ease}
+.nav-links a:hover{color:var(--text)}
+.btn{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:var(--font-display);font-weight:600;font-size:14px;
+  padding:12px 22px;border-radius:8px;border:1px solid var(--border);
+  background:var(--text);color:var(--bg);
+  transition:transform .15s cubic-bezier(.2,.9,.3,1.3),background .15s ease;
+}
+.btn:hover{background:#fff}
+.btn:active{transform:scale(.97)}
+.btn.ghost{background:transparent;color:var(--text)}
+.btn.ghost:hover{border-color:var(--faint)}
+.rec-dot{width:8px;height:8px;border-radius:50%;background:var(--rec);animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+
+/* ---------- hero ---------- */
+.hero{position:relative;min-height:100svh;display:flex;align-items:flex-end;padding-bottom:9vh}
+.hero-bg{position:absolute;inset:0;overflow:hidden}
+.hero-bg img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) brightness(.55)}
+.hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,10,11,.55) 0%,rgba(10,10,11,.25) 45%,var(--bg) 100%)}
+.hero-content{position:relative;z-index:1}
+.hero-kicker{display:flex;align-items:center;gap:10px;font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:20px}
+.hero h1{
+  font-family:var(--font-display);font-weight:700;
+  font-size:clamp(40px,7.2vw,92px);line-height:1.02;letter-spacing:-.02em;
+  max-width:14ch;
+}
+.hero h1 em{font-style:normal;color:var(--muted)}
+.hero-sub{margin-top:24px;font-size:clamp(16px,1.6vw,19px);color:var(--muted);max-width:46ch}
+.hero-actions{margin-top:36px;display:flex;gap:14px;flex-wrap:wrap}
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .55s ease,transform .55s cubic-bezier(.16,1,.3,1)}
+.reveal.in{opacity:1;transform:none}
+
+/* ---------- sections ---------- */
+section{padding:110px 0}
+.sec-head{margin-bottom:56px}
+.sec-kicker{font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--rec);font-weight:600;margin-bottom:14px}
+.sec-head h2{font-family:var(--font-display);font-weight:700;font-size:clamp(28px,3.6vw,44px);letter-spacing:-.015em;line-height:1.1}
+.sec-head p{margin-top:14px;color:var(--muted);max-width:56ch}
+
+/* ---------- o que fazemos ---------- */
+.tres{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:14px;overflow:hidden}
+.tres article{background:var(--surface);padding:36px 32px;transition:background .2s ease}
+.tres article:hover{background:var(--elevated)}
+.tres .num{font-family:var(--font-display);font-size:13px;color:var(--faint);letter-spacing:.1em}
+.tres h3{font-family:var(--font-display);font-size:21px;font-weight:600;margin:18px 0 10px}
+.tres p{font-size:15px;color:var(--muted)}
+
+/* ---------- trabalhos ---------- */
+.filtros{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:36px}
+.filtro{
+  font-family:var(--font-body);font-size:13.5px;color:var(--muted);
+  background:transparent;border:1px solid var(--border);border-radius:99px;
+  padding:8px 18px;cursor:pointer;transition:color .15s ease,border-color .15s ease,background .15s ease;
+}
+.filtro:hover{color:var(--text);border-color:var(--faint)}
+.filtro.on{color:var(--bg);background:var(--text);border-color:var(--text)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.card{
+  position:relative;border-radius:12px;overflow:hidden;cursor:pointer;
+  background:var(--surface);border:1px solid var(--border);
+  transition:transform .25s cubic-bezier(.16,1,.3,1),border-color .2s ease;
+}
+.card:hover{transform:translateY(-4px);border-color:#36363d}
+.card.hidden{display:none}
+.thumb{position:relative;aspect-ratio:16/9;overflow:hidden}
+.thumb img{width:100%;height:100%;object-fit:cover;filter:grayscale(.45) contrast(1.05);transition:filter .35s ease,transform .45s cubic-bezier(.16,1,.3,1)}
+.card:hover .thumb img{filter:grayscale(0);transform:scale(1.04)}
+.play{
+  position:absolute;inset:0;display:grid;place-items:center;
+  background:linear-gradient(180deg,transparent 40%,rgba(10,10,11,.55));
+}
+.play span{
+  width:54px;height:54px;border-radius:50%;display:grid;place-items:center;
+  background:rgba(10,10,11,.65);border:1px solid rgba(255,255,255,.25);backdrop-filter:blur(6px);
+  transition:transform .2s cubic-bezier(.2,.9,.3,1.4),background .2s ease;
+}
+.card:hover .play span{transform:scale(1.1);background:var(--rec);border-color:var(--rec)}
+.play svg{width:18px;height:18px;fill:#fff;margin-left:3px}
+.card-meta{padding:16px 18px 18px}
+.card-meta .tag{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--rec);font-weight:600}
+.card-meta h3{font-family:var(--font-display);font-size:16.5px;font-weight:600;margin-top:6px}
+.card-meta p{font-size:13.5px;color:var(--faint);margin-top:3px}
+
+/* ---------- lightbox ---------- */
+.lightbox{
+  position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;
+  background:rgba(5,5,6,.92);backdrop-filter:blur(8px);padding:24px;
+}
+.lightbox.open{display:flex;animation:fadein .2s ease}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+.lightbox-inner{width:min(1000px,100%);aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:#000;box-shadow:0 40px 120px rgba(0,0,0,.6)}
+.lightbox iframe{width:100%;height:100%;border:0;display:block}
+.lightbox-close{
+  position:absolute;top:22px;right:26px;width:44px;height:44px;border-radius:50%;
+  background:var(--elevated);border:1px solid var(--border);color:var(--text);
+  font-size:20px;cursor:pointer;display:grid;place-items:center;transition:background .15s ease;
+}
+.lightbox-close:hover{background:var(--rec);border-color:var(--rec)}
+
+/* ---------- serviços ---------- */
+.servicos{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.servico{
+  position:relative;border-radius:12px;overflow:hidden;min-height:300px;
+  display:flex;align-items:flex-end;border:1px solid var(--border);
+}
+.servico img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(1) brightness(.5);transition:filter .4s ease,transform .5s cubic-bezier(.16,1,.3,1)}
+.servico:hover img{filter:grayscale(1) brightness(.65);transform:scale(1.03)}
+.servico-info{position:relative;z-index:1;padding:28px;background:linear-gradient(180deg,transparent,rgba(10,10,11,.85));width:100%}
+.servico-info h3{font-family:var(--font-display);font-size:20px;font-weight:600}
+.servico-info p{font-size:14px;color:var(--muted);margin-top:6px;max-width:48ch}
+.servico.full{grid-column:1/-1;min-height:340px}
+.cap-list{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.cap{font-size:12.5px;color:var(--text);background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:99px;padding:5px 14px;backdrop-filter:blur(4px)}
+
+/* ---------- clientes ---------- */
+.clientes{padding:90px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.logos{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border)}
+.logo-cell{background:var(--bg);display:grid;place-items:center;padding:38px 24px;transition:background .2s ease}
+.logo-cell:hover{background:var(--surface)}
+.logo-cell img{max-height:44px;max-width:130px;object-fit:contain;filter:grayscale(1) brightness(1.4);opacity:.55;transition:opacity .25s ease,filter .25s ease}
+.logo-cell:hover img{opacity:1;filter:grayscale(0) brightness(1)}
+
+/* ---------- contato ---------- */
+.contato-box{
+  border:1px solid var(--border);border-radius:18px;background:var(--surface);
+  padding:clamp(40px,6vw,72px);display:grid;grid-template-columns:1.2fr 1fr;gap:48px;align-items:center;
+  position:relative;overflow:hidden;
+}
+.contato-box::before{
+  content:'';position:absolute;right:-120px;top:-120px;width:380px;height:380px;border-radius:50%;
+  background:radial-gradient(circle,rgba(229,72,63,.14),transparent 65%);pointer-events:none;
+}
+.contato-box h2{font-family:var(--font-display);font-size:clamp(26px,3.4vw,40px);font-weight:700;letter-spacing:-.015em;line-height:1.15}
+.contato-box .sub{color:var(--muted);margin-top:14px;max-width:44ch}
+.contato-canais{display:flex;flex-direction:column;gap:14px}
+.canal{
+  display:flex;align-items:center;gap:14px;padding:18px 20px;border-radius:10px;
+  background:var(--bg);border:1px solid var(--border);transition:border-color .15s ease,transform .15s ease;
+}
+.canal:hover{border-color:var(--faint);transform:translateX(4px)}
+.canal .ic{width:38px;height:38px;border-radius:9px;background:var(--elevated);display:grid;place-items:center;flex-shrink:0}
+.canal .ic svg{width:17px;height:17px;fill:var(--text)}
+.canal b{display:block;font-size:14.5px;font-weight:600;font-family:var(--font-display)}
+.canal span{font-size:13px;color:var(--faint)}
+
+/* ---------- footer ---------- */
+footer{padding:56px 0 40px;border-top:1px solid var(--border)}
+.foot{display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap}
+.foot-left{display:flex;align-items:center;gap:16px}
+.foot-left img{height:20px;opacity:.85}
+.foot p{font-size:13px;color:var(--faint)}
+.socials{display:flex;gap:10px}
+.socials a{
+  width:38px;height:38px;border-radius:9px;border:1px solid var(--border);
+  display:grid;place-items:center;transition:border-color .15s ease,background .15s ease;
+}
+.socials a:hover{border-color:var(--faint);background:var(--surface)}
+.socials svg{width:16px;height:16px;fill:var(--muted)}
+.socials a:hover svg{fill:var(--text)}
+
+/* ---------- responsive ---------- */
+@media(max-width:900px){
+  .tres{grid-template-columns:1fr}
+  .grid{grid-template-columns:repeat(2,1fr)}
+  .servicos{grid-template-columns:1fr}
+  .logos{grid-template-columns:repeat(2,1fr)}
+  .contato-box{grid-template-columns:1fr}
+  .nav-links li.hide-m{display:none}
+  section{padding:80px 0}
+}
+@media(max-width:560px){
+  .grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header id="header">
+  <div class="wrap nav">
+    <a class="nav-logo" href="#" aria-label="babuu productions">
+      <img src="https://static.wixstatic.com/media/b8b381_6de5824e1d6e4a35b082f26e4c947ff0~mv2.png/v1/fit/w_300,h_80,q_90/logo.png" alt="babuu productions">
+    </a>
+    <ul class="nav-links">
+      <li class="hide-m"><a href="#trabalhos">Trabalhos</a></li>
+      <li class="hide-m"><a href="#servicos">Serviços</a></li>
+      <li class="hide-m"><a href="#clientes">Clientes</a></li>
+      <li><a class="btn ghost" href="#contato" style="padding:10px 18px"><span class="rec-dot"></span>Pedir proposta</a></li>
+    </ul>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg">
+    <img src="https://static.wixstatic.com/media/b8b381_2ad490f7706b49dbbd0ecb6afe325ba9~mv2.jpg/v1/fit/w_1920,h_1280,q_85/hero.jpg" alt="Equipa babuu a filmar nas dunas">
+  </div>
+  <div class="wrap hero-content">
+    <div class="hero-kicker reveal"><span class="rec-dot"></span> PRODUTORA AUDIOVISUAL · LISBOA</div>
+    <h1 class="reveal" style="transition-delay:.08s">Contamos a sua história <em>no nosso filme.</em></h1>
+    <p class="hero-sub reveal" style="transition-delay:.16s">Documentários, branded content e vídeos institucionais — da ideia ao corte final, com a mesma equipa que filma para EDP, IKEA, CNN Portugal e Harley-Davidson.</p>
+    <div class="hero-actions reveal" style="transition-delay:.24s">
+      <button class="btn" data-video="qmwY3-W0iL0">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        Ver o reel
+      </button>
+      <a class="btn ghost" href="#trabalhos">Explorar trabalhos</a>
+    </div>
+  </div>
+</div>
+
+<!-- O QUE FAZEMOS -->
+<section>
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-kicker">O que fazemos</div>
+      <h2>Três formas de contar a mesma coisa: a verdade.</h2>
+    </div>
+    <div class="tres reveal">
+      <article>
+        <span class="num">01</span>
+        <h3>Documentários</h3>
+        <p>Séries e filmes documentais com olhar autoral. De ofícios tradicionais ao mar português — histórias reais, contadas com tempo e respeito.</p>
+      </article>
+      <article>
+        <span class="num">02</span>
+        <h3>Branded content</h3>
+        <p>Conteúdo de marca que as pessoas escolhem ver. Formatos originais que ligam a marca a uma história — não a um anúncio.</p>
+      </article>
+      <article>
+        <span class="num">03</span>
+        <h3>Vídeos institucionais</h3>
+        <p>A sua empresa apresentada como ela merece: com direção, fotografia e som de cinema, no tempo certo para cada canal.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- TRABALHOS -->
+<section id="trabalhos" style="padding-top:40px">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-kicker">Trabalhos</div>
+      <h2>O que já saiu da ilha de edição.</h2>
+      <p>Cada projeto abre aqui mesmo — clique e veja.</p>
+    </div>
+    <div class="filtros reveal">
+      <button class="filtro on" data-f="all">Tudo</button>
+      <button class="filtro" data-f="doc">Séries &amp; documentários</button>
+      <button class="filtro" data-f="brand">Branded content</button>
+      <button class="filtro" data-f="inst">Institucional</button>
+    </div>
+    <div class="grid" id="grid">
+
+      <div class="card reveal" data-cat="doc" data-video="Eo9GdV-xwNo">
+        <div class="thumb">
+          <img loading="lazy" src="https://i.ytimg.com/vi/Eo9GdV-xwNo/hqdefault.jpg" alt="MOVIMENTO — EP 01 Algas">
+          <div class="play"><span><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></div>
+        </div>
+        <div class="card-meta"><span class="tag">Série documental</span><h3>MOVIMENTO — Algas</h3><p>EP 01 · série própria</p></div>
+      </div>
+
+      <div class="card reveal" data-cat="doc" data-video="vo9bSmeNLm8">
+        <div class="thumb">
+          <img loading="lazy" src="https://i.ytimg.com/vi/vo9bSmeNLm8/hqdefault.jpg" alt="MOVIMENTO — EP 02 Abelhas">
+          <div class="play"><span><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></div>
+        </div>
+        <div class="card-meta"><span class="tag">Série documental</span><h3>MOVIMENTO — Abelhas</h3><p>EP 02 · série própria</p></div>
+      </div>
+
+      <div class="card reveal" data-cat="doc" data-video="ewVEzkvf-EY">
+        <div class="thumb">
+          <img loading="lazy" src="https://i.ytimg.com/vi/ewVEzkvf-EY/hqdefault.jpg" alt="MOVIMENTO — EP 04 Agave">
+          <div class="play"><span><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></div>
+        </div>
+        <div class="card-meta"><span class="tag">Série documental</span><h3>MOVIMENTO — Agave</h3><p>EP 04 · série própria</p></div>
+      </div>
+
+      <div class="card reveal" data-cat="doc" data-video="FIu_YSdfzTM">
+        <div class="thumb">
+          <img loading="lazy" src="https://i.ytimg.com/vi/FIu_YSdfzTM/hqdefault.jpg" alt="FREQUENCY — Cante Alentejano">
+          <div class="play"><span><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></div>
+        </div>
+        <div class="card-meta"><span class="tag">Série documental</span><h3>FREQUENCY — Cante Alentejano</h3><p>EP 01</p></div>
+      </div>
+
+      <div class="card reveal" data-cat="doc" data-video="h6Q5U9BKK_0">
+        <div class="thumb">
+          <img loading="lazy" src="https://i.ytimg.com/vi/h6Q5U9BKK_0/hqdefault.jpg" alt="FREQUENCY — Flamenco">
+          <div class="play"><span><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></div>
+        </div>
+        <div class="card-meta"><span class="tag">Série documental</span><h3>FREQUENCY — Flamenco</h3><p>EP 02</p></div>
+      </div>
+
+      <div class="card reveal" data-cat="doc" data-video="hqBL2-2T4V8">
+        <div class="thumb">
+          <img loading="lazy" src="https://i.ytimg.com/vi/hqBL2-2T4V8/hqdefault.jpg" alt="Mostra-me o Teu Mar — Recap">
+          <div class="play"><span><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></div>
+        </div>
+        <div class="card-meta"><span class="tag">Série de TV</span><h3>Mostra-me o Teu Mar</h3><p>Recap da temporada</p></div>
+      </div>
+
+      <div class="card reveal" data-cat="brand" data-video="pgzAm5pZH4k">
+        <div class="thumb">
+          <img loading="lazy" src="https://i.ytimg.com/vi/pgzAm5pZH4k/hqdefault.jpg" alt="REDLEY — Originais do Corre EP 01">
+          <div class="play"><span><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></div>
+        </div>
+        <div class="card-meta"><span class="tag">Branded content</span><h3>REDLEY — Originais do Corre</h3><p>EP 01</p></div>
+      </div>
+
+      <div class="card reveal" data-cat="brand" data-video="KajPWylahDg">
+        <div class="thumb">
+          <img loading="lazy" src="https://i.ytimg.com/vi/KajPWylahDg/hqdefault.jpg" alt="João Kopke — Music Sessions">
+          <div class="play"><span><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></div>
+        </div>
+        <div class="card-meta"><span class="tag">Branded content</span><h3>João Kopke — Music Sessions</h3><p>Sessão ao vivo #01</p></div>
+      </div>
+
+      <div class="card reveal" data-cat="brand" data-video="JADunwXLwkY">
+        <div class="thumb">
+          <img loading="lazy" src="https://i.ytimg.com/vi/JADunwXLwkY/hqdefault.jpg" alt="On The Road — Portugal">
+          <div class="play"><span><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></div>
+        </div>
+        <div class="card-meta"><span class="tag">Branded content</span><h3>On The Road — Portugal</h3><p>Harley-Davidson</p></div>
+      </div>
+
+      <div class="card reveal" data-cat="inst" data-video="eiovH0i77zY">
+        <div class="thumb">
+          <img loading="lazy" src="https://i.ytimg.com/vi/eiovH0i77zY/hqdefault.jpg" alt="VOCAÇÕES — Chef Pedro Lima">
+          <div class="play"><span><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></div>
+        </div>
+        <div class="card-meta"><span class="tag">Retrato / institucional</span><h3>VOCAÇÕES — Chef Pedro Lima</h3><p>Retrato documental</p></div>
+      </div>
+
+      <div class="card reveal" data-cat="inst" data-video="xozzSucBRj4">
+        <div class="thumb">
+          <img loading="lazy" src="https://i.ytimg.com/vi/xozzSucBRj4/hqdefault.jpg" alt="Braga Natural">
+          <div class="play"><span><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></div>
+        </div>
+        <div class="card-meta"><span class="tag">Documentário</span><h3>Braga Natural</h3><p>Documentário de natureza</p></div>
+      </div>
+
+      <div class="card reveal" data-cat="inst" data-video="qmwY3-W0iL0">
+        <div class="thumb">
+          <img loading="lazy" src="https://i.ytimg.com/vi/qmwY3-W0iL0/hqdefault.jpg" alt="babuu — institucional 2024">
+          <div class="play"><span><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span></div>
+        </div>
+        <div class="card-meta"><span class="tag">Institucional</span><h3>babuu — Reel institucional</h3><p>2024</p></div>
+      </div>
+
+    </div>
+    <p class="reveal" style="margin-top:36px;color:var(--faint);font-size:14px">
+      Mais trabalhos no <a href="https://vimeo.com/babuu" target="_blank" rel="noopener" style="color:var(--muted);border-bottom:1px solid var(--border)">Vimeo</a> e no <a href="https://youtube.com/@babuu.productions" target="_blank" rel="noopener" style="color:var(--muted);border-bottom:1px solid var(--border)">YouTube</a>.
+    </p>
+  </div>
+</section>
+
+<!-- SERVIÇOS -->
+<section id="servicos" style="padding-top:40px">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="sec-kicker">Serviços</div>
+      <h2>Da primeira ideia à cor final.</h2>
+      <p>Uma equipa, todas as etapas. Sem intermediários entre a sua história e o ecrã.</p>
+    </div>
+    <div class="servicos">
+      <div class="servico full reveal">
+        <img loading="lazy" src="https://static.wixstatic.com/media/b8b381_b9267518540f45a69d2b9843324afc16~mv2.jpg/v1/fit/w_1600,h_1066,q_85/set.jpg" alt="Set de filmagem na neve">
+        <div class="servico-info">
+          <h3>Produção completa</h3>
+          <p>Criação de formato, produção executiva e direção — assumimos o projeto inteiro ou entramos na etapa em que precisa de nós.</p>
+          <div class="cap-list">
+            <span class="cap">Criação de formatos</span>
+            <span class="cap">Produção executiva</span>
+            <span class="cap">Direção</span>
+            <span class="cap">Direção de fotografia</span>
+          </div>
+        </div>
+      </div>
+      <div class="servico reveal">
+        <img loading="lazy" src="https://static.wixstatic.com/media/b8b381_b1393980c968456cbaada617311f11a4~mv2.jpg/v1/fit/w_1200,h_800,q_85/drone.jpg" alt="Drone em voo">
+        <div class="servico-info">
+          <h3>Filmagem aérea</h3>
+          <p>Drones e pilotos certificados para planos que ninguém mais alcança.</p>
+        </div>
+      </div>
+      <div class="servico reveal">
+        <img loading="lazy" src="https://static.wixstatic.com/media/b8b381_7df3504dca0142a088b105adb22f2095~mv2.jpg/v1/fit/w_1200,h_800,q_85/sub.jpg" alt="Operador de câmara subaquática">
+        <div class="servico-info">
+          <h3>Filmagem subaquática</h3>
+          <p>Equipa e equipamento próprios para filmar debaixo de água — do Atlântico ao tanque de estúdio.</p>
+        </div>
+      </div>
+      <div class="servico reveal">
+        <img loading="lazy" src="https://static.wixstatic.com/media/b8b381_39b35053fd454a7d80e8e796656da9d8~mv2.jpg/v1/fit/w_1200,h_800,q_85/edit.jpg" alt="Editora a trabalhar na ilha de edição">
+        <div class="servico-info">
+          <h3>Edição &amp; pós-produção</h3>
+          <p>Montagem, som e finalização na nossa ilha de edição.</p>
+        </div>
+      </div>
+      <div class="servico reveal">
+        <img loading="lazy" src="https://static.wixstatic.com/media/b8b381_f1502fae2c3242bbbfa96adcf174fc9a~mv2.jpg/v1/fit/w_1200,h_800,q_85/color.jpg" alt="Timeline de edição">
+        <div class="servico-info">
+          <h3>Color grading &amp; motion</h3>
+          <p>Correção de cor e motion graphics que dão a textura final ao filme.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CLIENTES -->
+<section class="clientes" id="clientes">
+  <div class="wrap">
+    <div class="sec-head reveal" style="margin-bottom:44px">
+      <div class="sec-kicker">Clientes</div>
+      <h2>Marcas que já confiaram a história a nós.</h2>
+    </div>
+    <div class="logos reveal">
+      <div class="logo-cell"><img loading="lazy" src="https://static.wixstatic.com/media/b8b381_f89aea76be3d48f1aedfa066dc65f1d8~mv2.png/v1/fit/w_300,h_200,q_90/edp.png" alt="EDP"></div>
+      <div class="logo-cell"><img loading="lazy" src="https://static.wixstatic.com/media/b8b381_dff949e26d1040b5a19be53b0f78c068~mv2.png/v1/fit/w_300,h_200,q_90/ikea.png" alt="IKEA"></div>
+      <div class="logo-cell"><img loading="lazy" src="https://static.wixstatic.com/media/b8b381_3efca6c95e214c2baece7b39fb13943a~mv2.png/v1/fit/w_300,h_200,q_90/cnn.png" alt="CNN Portugal"></div>
+      <div class="logo-cell"><img loading="lazy" src="https://static.wixstatic.com/media/b8b381_8cd5f62488824b89a80915f8cfa09fea~mv2.png/v1/fit/w_300,h_200,q_90/harley.png" alt="Harley-Davidson"></div>
+      <div class="logo-cell"><img loading="lazy" src="https://static.wixstatic.com/media/b8b381_32e2c02def1945038fd08309a756a715~mv2.png/v1/fit/w_300,h_200,q_90/sporttv.png" alt="sport tv"></div>
+      <div class="logo-cell"><img loading="lazy" src="https://static.wixstatic.com/media/b8b381_39718b7cdede4161b5eb6b7d008c895c~mv2.png/v1/fit/w_300,h_200,q_90/redley.png" alt="Redley"></div>
+      <div class="logo-cell"><img loading="lazy" src="https://static.wixstatic.com/media/b8b381_caa0879003164e0ca3b96ab43a5e778d~mv2.png/v1/fit/w_300,h_200,q_90/reia.png" alt="reia"></div>
+      <div class="logo-cell"><img loading="lazy" src="https://static.wixstatic.com/media/b8b381_d825af0b098241698c2c23e3810f067f~mv2.jpg/v1/fit/w_300,h_200,q_90/pingodoce.jpg" alt="Pingo Doce"></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTATO -->
+<section id="contato">
+  <div class="wrap">
+    <div class="contato-box reveal">
+      <div>
+        <div class="sec-kicker"><span class="rec-dot" style="display:inline-block;vertical-align:middle;margin-right:8px"></span>Vamos filmar</div>
+        <h2>Tem uma história?<br>Nós temos a câmara.</h2>
+        <p class="sub">Conte-nos a ideia em duas linhas. Respondemos com uma proposta clara: formato, prazo e orçamento.</p>
+      </div>
+      <div class="contato-canais">
+        <a class="canal" href="mailto:contact@babuu.productions">
+          <span class="ic"><svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg></span>
+          <span><b>contact@babuu.productions</b><span>Resposta em até 24h úteis</span></span>
+        </a>
+        <a class="canal" href="https://wa.me/351939512688" target="_blank" rel="noopener">
+          <span class="ic"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.4 14.1c-.2.7-1.3 1.3-1.8 1.3-.5.1-1 .2-3.4-.7-2.9-1.2-4.7-4.1-4.9-4.3-.1-.2-1.1-1.5-1.1-2.9s.7-2 1-2.3c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5s.8 1.9.8 2c.1.1.1.3 0 .5l-.4.6c-.2.2-.3.4-.1.7.1.3.7 1.2 1.6 1.9 1.1.9 2 1.2 2.3 1.4.3.1.5.1.6-.1.2-.2.7-.8.9-1.1.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.7-.3 1.7z"/></svg></span>
+          <span><b>+351 939 512 688</b><span>WhatsApp direto com a produção</span></span>
+        </a>
+        <a class="canal" href="https://instagram.com/babuu.productions" target="_blank" rel="noopener">
+          <span class="ic"><svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.8.2 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.2 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.8-.2-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1-.4-2.2-.1-1.3-.1-1.7-.1-4.9s0-3.6.1-4.9c.1-1.2.2-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4 1.3-.1 1.7-.1 4.9-.1zm0 1.8c-3.1 0-3.5 0-4.8.1-1.1.1-1.5.2-1.9.3-.5.2-.8.4-1.1.7-.3.3-.6.7-.7 1.1-.1.4-.3.8-.3 1.9-.1 1.3-.1 1.6-.1 4.8s0 3.5.1 4.8c.1 1.1.2 1.5.3 1.9.2.5.4.8.7 1.1.3.3.7.6 1.1.7.4.1.8.3 1.9.3 1.3.1 1.6.1 4.8.1s3.5 0 4.8-.1c1.1-.1 1.5-.2 1.9-.3.5-.2.8-.4 1.1-.7.3-.3.6-.7.7-1.1.1-.4.3-.8.3-1.9.1-1.3.1-1.6.1-4.8s0-3.5-.1-4.8c-.1-1.1-.2-1.5-.3-1.9-.2-.5-.4-.8-.7-1.1-.3-.3-.7-.6-1.1-.7-.4-.1-.8-.3-1.9-.3-1.3-.1-1.6-.1-4.8-.1zm0 3.1a5 5 0 1 1 0 9.9 5 5 0 0 1 0-9.9zm0 8.1a3.2 3.2 0 1 0 0-6.3 3.2 3.2 0 0 0 0 6.3zm6.3-8.3a1.2 1.2 0 1 1-2.3 0 1.2 1.2 0 0 1 2.3 0z"/></svg></span>
+          <span><b>@babuu.productions</b><span>Bastidores e novos projetos</span></span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <div class="foot-left">
+      <img src="https://static.wixstatic.com/media/b8b381_6de5824e1d6e4a35b082f26e4c947ff0~mv2.png/v1/fit/w_240,h_64,q_90/logo.png" alt="babuu productions">
+      <p>© <span id="year"></span> babuu productions · Lisboa, Portugal</p>
+    </div>
+    <div class="socials">
+      <a href="https://instagram.com/babuu.productions" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.8.2 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.2 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.8-.2-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1-.4-2.2-.1-1.3-.1-1.7-.1-4.9s0-3.6.1-4.9c.1-1.2.2-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4 1.3-.1 1.7-.1 4.9-.1zm0 4.9a5 5 0 1 0 0 9.9 5 5 0 0 0 0-9.9zm6.3-1.1a1.2 1.2 0 1 1-2.3 0 1.2 1.2 0 0 1 2.3 0zM12 9a3.2 3.2 0 1 1 0 6.3A3.2 3.2 0 0 1 12 9z"/></svg></a>
+      <a href="https://vimeo.com/babuu" target="_blank" rel="noopener" aria-label="Vimeo"><svg viewBox="0 0 24 24"><path d="M22 7.4c-.1 2-1.5 4.7-4.2 8.2-2.8 3.6-5.2 5.4-7.2 5.4-1.2 0-2.2-1.1-3-3.4L6 11.6c-.6-2.2-1.3-3.4-2-3.4-.2 0-.7.3-1.6 1L1.5 8c1-.9 2-1.8 3-2.7C5.8 4.1 6.8 3.5 7.5 3.4c1.5-.1 2.4.9 2.8 3.1.4 2.4.6 3.8.8 4.4.4 2 .9 3 1.4 3 .4 0 1-.6 1.8-1.9.8-1.3 1.2-2.2 1.3-2.9.1-1.1-.3-1.7-1.3-1.7-.5 0-1 .1-1.5.3 1-3.3 2.9-4.8 5.7-4.7 2.1.1 3.1 1.4 2.5 4.4z"/></svg></a>
+      <a href="https://youtube.com/@babuu.productions" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.3 31.3 0 0 0 0 12c0 2 .2 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1c.3-1.9.5-3.8.5-5.8s-.2-3.9-.5-5.8zM9.6 15.6V8.4L15.8 12l-6.2 3.6z"/></svg></a>
+      <a href="https://linkedin.com/company/babuuproductions" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M20.4 20.4h-3.5v-5.6c0-1.3 0-3-1.9-3s-2.1 1.4-2.1 2.9v5.7H9.4V9h3.4v1.6h.1c.5-.9 1.6-1.9 3.4-1.9 3.6 0 4.2 2.4 4.2 5.4v6.3zM5.3 7.4a2 2 0 1 1 0-4.1 2 2 0 0 1 0 4.1zM7.1 20.4H3.6V9h3.5v11.4z"/></svg></a>
+    </div>
+  </div>
+</footer>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Player de vídeo">
+  <button class="lightbox-close" id="lbClose" aria-label="Fechar">✕</button>
+  <div class="lightbox-inner" id="lbInner"></div>
+</div>
+
+<script>
+// header scroll
+const header = document.getElementById('header');
+addEventListener('scroll', () => header.classList.toggle('scrolled', scrollY > 30), {passive:true});
+
+// reveal on scroll
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+}, {threshold:.12});
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+// filtros
+document.querySelectorAll('.filtro').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filtro').forEach(b => b.classList.remove('on'));
+    btn.classList.add('on');
+    const f = btn.dataset.f;
+    document.querySelectorAll('#grid .card').forEach(c => {
+      c.classList.toggle('hidden', f !== 'all' && c.dataset.cat !== f);
+    });
+  });
+});
+
+// lightbox
+const lb = document.getElementById('lightbox');
+const lbInner = document.getElementById('lbInner');
+function openVideo(id){
+  lbInner.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + id + '?autoplay=1&rel=0" title="Vídeo babuu productions" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen></iframe>';
+  lb.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeVideo(){
+  lb.classList.remove('open');
+  lbInner.innerHTML = '';
+  document.body.style.overflow = '';
+}
+document.querySelectorAll('[data-video]').forEach(el => el.addEventListener('click', () => openVideo(el.dataset.video)));
+document.getElementById('lbClose').addEventListener('click', closeVideo);
+lb.addEventListener('click', e => { if (e.target === lb) closeVideo(); });
+addEventListener('keydown', e => { if (e.key === 'Escape') closeVideo(); });
+
+document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

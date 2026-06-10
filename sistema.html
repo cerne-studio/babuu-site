@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>babuu studio — Painel de produção</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="https://static.wixstatic.com/media/b8b381_c83e4b24e2a84304bea900b182cedd06~mv2.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Geist:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0a0b;
+  --surface:#111113;
+  --elevated:#1a1a1f;
+  --border:#232328;
+  --text:#f5f5f4;
+  --muted:#a1a19c;
+  --faint:#6b6b66;
+  --rec:#e5483f;
+  --ok:#4ade80;
+  --warn:#fbbf24;
+  --info:#60a5fa;
+  --font-display:'Sora',sans-serif;
+  --font-body:'Geist',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit}
+
+.demo-banner{
+  background:var(--rec);color:#fff;text-align:center;font-size:13px;font-weight:500;
+  padding:7px 16px;letter-spacing:.02em;
+}
+.demo-banner b{font-weight:700}
+
+.app{display:grid;grid-template-columns:240px 1fr;min-height:calc(100vh - 32px)}
+
+/* sidebar */
+.side{
+  background:var(--surface);border-right:1px solid var(--border);
+  padding:24px 14px;display:flex;flex-direction:column;gap:4px;
+  position:sticky;top:0;height:calc(100vh - 32px);
+}
+.side-logo{display:flex;align-items:center;gap:10px;padding:0 10px 22px}
+.side-logo img{height:22px}
+.side-logo span{font-size:11px;color:var(--faint);letter-spacing:.14em;text-transform:uppercase;font-weight:600;margin-top:2px}
+.side a.item{
+  display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:8px;
+  font-size:14px;color:var(--muted);cursor:pointer;transition:background .12s ease,color .12s ease;
+}
+.side a.item svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+.side a.item:hover{background:var(--elevated);color:var(--text)}
+.side a.item.on{background:var(--elevated);color:var(--text);font-weight:500}
+.side a.item.on::before{content:'';width:3px;height:18px;background:var(--rec);border-radius:2px;margin-left:-12px;margin-right:9px}
+.side .sep{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);padding:18px 12px 6px}
+.side .back{margin-top:auto;border-top:1px solid var(--border);padding-top:14px}
+
+/* main */
+.main{padding:32px 36px;max-width:1240px}
+.tela{display:none}
+.tela.on{display:block;animation:enter .25s cubic-bezier(.16,1,.3,1)}
+@keyframes enter{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.top{display:flex;align-items:flex-start;justify-content:space-between;gap:20px;margin-bottom:28px;flex-wrap:wrap}
+.top h1{font-family:var(--font-display);font-size:24px;font-weight:600;letter-spacing:-.01em}
+.top p{color:var(--muted);font-size:14px;margin-top:4px}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;font-family:var(--font-display);
+  font-weight:600;font-size:13.5px;padding:10px 18px;border-radius:8px;cursor:pointer;
+  background:var(--text);color:var(--bg);border:1px solid var(--text);
+  transition:transform .12s ease,opacity .12s ease;
+}
+.btn:hover{opacity:.92}
+.btn:active{transform:scale(.97)}
+
+/* cards de resumo */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px}
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px}
+.kpi .lab{font-size:12.5px;color:var(--muted)}
+.kpi .val{font-family:var(--font-display);font-size:30px;font-weight:700;margin-top:6px;letter-spacing:-.02em}
+.kpi .delta{font-size:12.5px;margin-top:4px;color:var(--faint)}
+.kpi .delta.up{color:var(--ok)}
+.kpi .delta.warn{color:var(--warn)}
+
+/* painel genérico */
+.painel{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:24px}
+.painel-head{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--border)}
+.painel-head h2{font-family:var(--font-display);font-size:15px;font-weight:600}
+.painel-head a{font-size:13px;color:var(--faint)}
+.painel-head a:hover{color:var(--muted)}
+
+/* tabela */
+table{width:100%;border-collapse:collapse}
+th{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);font-weight:500;text-align:left;padding:12px 20px;border-bottom:1px solid var(--border)}
+td{padding:14px 20px;border-bottom:1px solid var(--border);font-size:14px;vertical-align:middle}
+tr:last-child td{border-bottom:0}
+tbody tr{transition:background .1s ease;cursor:pointer}
+tbody tr:hover{background:var(--elevated)}
+td .proj{font-weight:500}
+td .cli{font-size:12.5px;color:var(--faint);display:block;margin-top:1px}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:500;padding:4px 11px;border-radius:99px;white-space:nowrap}
+.chip::before{content:'';width:6px;height:6px;border-radius:50%;background:currentColor}
+.chip.rodagem{color:var(--rec);background:rgba(229,72,63,.1)}
+.chip.pos{color:var(--info);background:rgba(96,165,250,.1)}
+.chip.color{color:#c084fc;background:rgba(192,132,252,.1)}
+.chip.aprovacao{color:var(--warn);background:rgba(251,191,36,.1)}
+.chip.entregue{color:var(--ok);background:rgba(74,222,128,.1)}
+.chip.pre{color:var(--muted);background:rgba(161,161,156,.1)}
+.bar{height:5px;border-radius:3px;background:var(--elevated);width:120px;overflow:hidden}
+.bar i{display:block;height:100%;border-radius:3px;background:var(--text)}
+.duo{display:grid;grid-template-columns:1.4fr 1fr;gap:24px}
+
+/* agenda */
+.dia{padding:14px 20px;border-bottom:1px solid var(--border);display:flex;gap:16px;align-items:flex-start}
+.dia:last-child{border-bottom:0}
+.data{
+  flex-shrink:0;width:52px;text-align:center;background:var(--elevated);
+  border:1px solid var(--border);border-radius:9px;padding:7px 0;
+}
+.data b{display:block;font-family:var(--font-display);font-size:18px;font-weight:700;line-height:1.1}
+.data span{font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--faint)}
+.dia-info b{font-size:14px;font-weight:600;display:block}
+.dia-info span{font-size:13px;color:var(--muted)}
+.dia-info .loc{font-size:12px;color:var(--faint);display:flex;align-items:center;gap:5px;margin-top:3px}
+
+/* kanban propostas */
+.kanban{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.col{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:14px;min-height:200px}
+.col-head{display:flex;align-items:center;justify-content:space-between;padding:2px 6px 12px}
+.col-head h3{font-size:13px;font-weight:600;color:var(--muted)}
+.col-head .n{font-size:12px;color:var(--faint);background:var(--elevated);border-radius:99px;padding:2px 9px}
+.prop{
+  background:var(--elevated);border:1px solid var(--border);border-radius:10px;
+  padding:14px;margin-bottom:10px;cursor:grab;transition:transform .15s ease,border-color .15s ease;
+}
+.prop:hover{transform:translateY(-2px);border-color:#36363d}
+.prop b{font-size:13.5px;font-weight:600;display:block}
+.prop .cli{font-size:12px;color:var(--faint);margin-top:2px;display:block}
+.prop .val{font-family:var(--font-display);font-size:14px;font-weight:600;margin-top:10px}
+.prop .meta{display:flex;justify-content:space-between;align-items:center;margin-top:8px;font-size:11.5px;color:var(--faint)}
+
+/* entregas */
+.entrega{display:flex;align-items:center;gap:14px;padding:14px 20px;border-bottom:1px solid var(--border)}
+.entrega:last-child{border-bottom:0}
+.entrega input[type=checkbox]{
+  appearance:none;width:19px;height:19px;border:1.5px solid var(--faint);border-radius:6px;
+  cursor:pointer;flex-shrink:0;display:grid;place-items:center;transition:background .12s ease,border-color .12s ease;
+}
+.entrega input[type=checkbox]:checked{background:var(--ok);border-color:var(--ok)}
+.entrega input[type=checkbox]:checked::after{content:'✓';font-size:12px;color:#0a0a0b;font-weight:700}
+.entrega.done b{text-decoration:line-through;color:var(--faint)}
+.entrega b{font-size:14px;font-weight:500;display:block}
+.entrega span{font-size:12.5px;color:var(--faint)}
+.entrega .prazo{margin-left:auto;font-size:12px;color:var(--muted);white-space:nowrap}
+.entrega .prazo.tarde{color:var(--rec)}
+
+/* clientes */
+.cli-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.cli-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:22px;transition:border-color .15s ease}
+.cli-card:hover{border-color:#36363d}
+.cli-card .nome{font-family:var(--font-display);font-weight:600;font-size:16px}
+.cli-card .desde{font-size:12.5px;color:var(--faint);margin-top:2px}
+.cli-card .nums{display:flex;gap:24px;margin-top:16px;padding-top:14px;border-top:1px solid var(--border)}
+.cli-card .nums b{font-family:var(--font-display);font-size:19px;font-weight:700;display:block}
+.cli-card .nums span{font-size:11.5px;color:var(--faint)}
+
+.toast{
+  position:fixed;bottom:24px;right:24px;background:var(--elevated);border:1px solid var(--border);
+  border-radius:10px;padding:14px 18px;font-size:13.5px;display:flex;align-items:center;gap:10px;
+  transform:translateY(80px);opacity:0;transition:transform .3s cubic-bezier(.16,1,.3,1),opacity .3s ease;z-index:99;
+  box-shadow:0 16px 48px rgba(0,0,0,.45);
+}
+.toast.show{transform:none;opacity:1}
+.toast .dot{width:8px;height:8px;border-radius:50%;background:var(--ok)}
+
+@media(max-width:980px){
+  .app{grid-template-columns:1fr}
+  .side{position:static;height:auto;flex-direction:row;flex-wrap:wrap;align-items:center;padding:14px;gap:2px}
+  .side-logo{padding:0 10px 0 4px}
+  .side .sep{display:none}
+  .side .back{margin:0;border:0;padding:0;margin-left:auto}
+  .side a.item{padding:8px 11px;font-size:13px}
+  .side a.item.on::before{display:none}
+  .main{padding:22px 16px}
+  .kpis{grid-template-columns:repeat(2,1fr)}
+  .duo{grid-template-columns:1fr}
+  .kanban{grid-template-columns:repeat(2,1fr)}
+  .cli-grid{grid-template-columns:1fr}
+  .bar{width:70px}
+  table{font-size:13px}
+  th,td{padding:10px 12px}
+}
+</style>
+</head>
+<body>
+
+<div class="demo-banner"><b>Demonstração</b> — painel interno com dados fictícios, criado a partir dos projetos públicos da babuu</div>
+
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <nav class="side">
+    <div class="side-logo">
+      <img src="https://static.wixstatic.com/media/b8b381_6de5824e1d6e4a35b082f26e4c947ff0~mv2.png/v1/fit/w_240,h_64,q_90/logo.png" alt="babuu">
+      <span>studio</span>
+    </div>
+    <a class="item on" data-tela="inicio">
+      <svg viewBox="0 0 24 24"><path d="M3 12l9-8 9 8M5 10v10h5v-6h4v6h5V10"/></svg>
+      Início
+    </a>
+    <a class="item" data-tela="producoes">
+      <svg viewBox="0 0 24 24"><rect x="2" y="6" width="14" height="12" rx="2"/><path d="M16 10l6-3v10l-6-3"/></svg>
+      Produções
+    </a>
+    <a class="item" data-tela="propostas">
+      <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h4"/></svg>
+      Propostas
+    </a>
+    <a class="item" data-tela="agenda">
+      <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+      Agenda de rodagem
+    </a>
+    <a class="item" data-tela="entregas">
+      <svg viewBox="0 0 24 24"><path d="M22 11.1V12a10 10 0 1 1-5.9-9.1"/><path d="M22 4L12 14l-3-3"/></svg>
+      Entregas
+    </a>
+    <a class="item" data-tela="clientes">
+      <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></svg>
+      Clientes
+    </a>
+    <div class="back">
+      <a class="item" href="index.html">
+        <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Voltar ao site
+      </a>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- INÍCIO -->
+    <div class="tela on" id="tela-inicio">
+      <div class="top">
+        <div>
+          <h1>Bom dia, babuu 👋</h1>
+          <p>Terça-feira — 3 produções ativas, 2 filmagens esta semana.</p>
+        </div>
+        <button class="btn" onclick="toast('Nova proposta criada (demo)')">+ Nova proposta</button>
+      </div>
+
+      <div class="kpis">
+        <div class="kpi"><div class="lab">Produções ativas</div><div class="val">3</div><div class="delta">2 em pós-produção</div></div>
+        <div class="kpi"><div class="lab">Propostas em aberto</div><div class="val">€ 46.500</div><div class="delta up">↑ 4 propostas no funil</div></div>
+        <div class="kpi"><div class="lab">Filmagens esta semana</div><div class="val">2</div><div class="delta">Sesimbra · Lisboa</div></div>
+        <div class="kpi"><div class="lab">Entregas pendentes</div><div class="val">5</div><div class="delta warn">1 vence amanhã</div></div>
+      </div>
+
+      <div class="duo">
+        <div class="painel">
+          <div class="painel-head"><h2>Produções em curso</h2><a data-tela="producoes" class="goto">Ver todas →</a></div>
+          <table>
+            <thead><tr><th>Projeto</th><th>Fase</th><th>Progresso</th></tr></thead>
+            <tbody>
+              <tr><td><span class="proj">MOVIMENTO — EP 05 Sal</span><span class="cli">Série documental própria</span></td><td><span class="chip rodagem">Rodagem</span></td><td><div class="bar"><i style="width:45%"></i></div></td></tr>
+              <tr><td><span class="proj">Originais do Corre — EP 03</span><span class="cli">REDLEY</span></td><td><span class="chip pos">Pós-produção</span></td><td><div class="bar"><i style="width:70%"></i></div></td></tr>
+              <tr><td><span class="proj">Institucional 2026</span><span class="cli">reia</span></td><td><span class="chip color">Color grading</span></td><td><div class="bar"><i style="width:90%"></i></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="painel">
+          <div class="painel-head"><h2>Próximas filmagens</h2><a data-tela="agenda" class="goto">Agenda →</a></div>
+          <div class="dia">
+            <div class="data"><b>12</b><span>jun</span></div>
+            <div class="dia-info"><b>MOVIMENTO — Salinas</b><span>Diária completa · equipa de 4</span><div class="loc">📍 Sesimbra</div></div>
+          </div>
+          <div class="dia">
+            <div class="data"><b>14</b><span>jun</span></div>
+            <div class="dia-info"><b>REDLEY — entrevistas EP 03</b><span>Meio dia · estúdio</span><div class="loc">📍 Lisboa, LX Factory</div></div>
+          </div>
+          <div class="dia">
+            <div class="data"><b>19</b><span>jun</span></div>
+            <div class="dia-info"><b>Scouting — doc Açores</b><span>Pré-produção</span><div class="loc">📍 São Miguel</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRODUÇÕES -->
+    <div class="tela" id="tela-producoes">
+      <div class="top">
+        <div><h1>Produções</h1><p>Tudo o que está em movimento, da pré à entrega.</p></div>
+        <button class="btn" onclick="toast('Nova produção criada (demo)')">+ Nova produção</button>
+      </div>
+      <div class="painel">
+        <table>
+          <thead><tr><th>Projeto</th><th>Cliente</th><th>Fase</th><th>Progresso</th><th>Entrega</th></tr></thead>
+          <tbody>
+            <tr><td><span class="proj">MOVIMENTO — EP 05 Sal</span></td><td>Produção própria</td><td><span class="chip rodagem">Rodagem</span></td><td><div class="bar"><i style="width:45%"></i></div></td><td>30 jul</td></tr>
+            <tr><td><span class="proj">Originais do Corre — EP 03</span></td><td>REDLEY</td><td><span class="chip pos">Pós-produção</span></td><td><div class="bar"><i style="width:70%"></i></div></td><td>28 jun</td></tr>
+            <tr><td><span class="proj">Institucional 2026</span></td><td>reia</td><td><span class="chip color">Color grading</span></td><td><div class="bar"><i style="width:90%"></i></div></td><td>13 jun</td></tr>
+            <tr><td><span class="proj">FREQUENCY — EP 04 Fado</span></td><td>Produção própria</td><td><span class="chip pre">Pré-produção</span></td><td><div class="bar"><i style="width:15%"></i></div></td><td>set 2026</td></tr>
+            <tr><td><span class="proj">Doc Açores (sem título)</span></td><td>Visit Azores</td><td><span class="chip pre">Pré-produção</span></td><td><div class="bar"><i style="width:10%"></i></div></td><td>out 2026</td></tr>
+            <tr><td><span class="proj">VOCAÇÕES — Oleiro de Bisalhães</span></td><td>Produção própria</td><td><span class="chip aprovacao">Em aprovação</span></td><td><div class="bar"><i style="width:95%"></i></div></td><td>20 jun</td></tr>
+            <tr><td><span class="proj">Mostra-me o Teu Mar — T2</span></td><td>sport tv</td><td><span class="chip entregue">Entregue</span></td><td><div class="bar"><i style="width:100%"></i></div></td><td>—</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- PROPOSTAS -->
+    <div class="tela" id="tela-propostas">
+      <div class="top">
+        <div><h1>Propostas</h1><p>O funil comercial do estúdio — arraste mentalmente, por enquanto. 🙂</p></div>
+        <button class="btn" onclick="toast('Nova proposta criada (demo)')">+ Nova proposta</button>
+      </div>
+      <div class="kanban">
+        <div class="col">
+          <div class="col-head"><h3>Contato inicial</h3><span class="n">2</span></div>
+          <div class="prop"><b>Vídeo de marca 2027</b><span class="cli">Pingo Doce</span><div class="val">€ 18.000</div><div class="meta"><span>há 2 dias</span><span>📎 briefing</span></div></div>
+          <div class="prop"><b>Série “Ofícios do Norte”</b><span class="cli">CMTV Braga</span><div class="val">a definir</div><div class="meta"><span>há 5 dias</span></div></div>
+        </div>
+        <div class="col">
+          <div class="col-head"><h3>Proposta enviada</h3><span class="n">2</span></div>
+          <div class="prop"><b>Aftermovie Rally</b><span class="cli">Harley-Davidson PT</span><div class="val">€ 9.500</div><div class="meta"><span>enviada 04 jun</span><span>⏳ aguarda</span></div></div>
+          <div class="prop"><b>Doc interno 50 anos</b><span class="cli">EDP</span><div class="val">€ 24.000</div><div class="meta"><span>enviada 28 mai</span><span>⏳ aguarda</span></div></div>
+        </div>
+        <div class="col">
+          <div class="col-head"><h3>Em negociação</h3><span class="n">1</span></div>
+          <div class="prop"><b>Campanha verão 2027</b><span class="cli">Visit Madeira</span><div class="val">€ 13.000</div><div class="meta"><span>reunião 16 jun</span><span>🔥 quente</span></div></div>
+        </div>
+        <div class="col">
+          <div class="col-head"><h3>Fechada 🎉</h3><span class="n">1</span></div>
+          <div class="prop" style="border-color:rgba(74,222,128,.3)"><b>Institucional 2026</b><span class="cli">reia</span><div class="val">€ 7.800</div><div class="meta"><span>fechada 02 jun</span><span>✅</span></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AGENDA -->
+    <div class="tela" id="tela-agenda">
+      <div class="top">
+        <div><h1>Agenda de rodagem</h1><p>Junho 2026 — equipa, local e logística num só lugar.</p></div>
+        <button class="btn" onclick="toast('Filmagem agendada (demo)')">+ Agendar filmagem</button>
+      </div>
+      <div class="painel">
+        <div class="dia">
+          <div class="data"><b>12</b><span>jun</span></div>
+          <div class="dia-info"><b>MOVIMENTO EP 05 — Salinas</b><span>05h30 chamada · diária completa · 4 pessoas · drone + subaquática</span><div class="loc">📍 Salinas de Sesimbra · ☀️ previsão: limpo</div></div>
+        </div>
+        <div class="dia">
+          <div class="data"><b>14</b><span>jun</span></div>
+          <div class="dia-info"><b>REDLEY — entrevistas EP 03</b><span>09h00 · meio dia · 3 pessoas · kit luz estúdio</span><div class="loc">📍 LX Factory, Lisboa</div></div>
+        </div>
+        <div class="dia">
+          <div class="data"><b>19</b><span>jun</span></div>
+          <div class="dia-info"><b>Scouting doc Açores</b><span>3 dias · 2 pessoas · repérage + contactos locais</span><div class="loc">📍 São Miguel, Açores</div></div>
+        </div>
+        <div class="dia">
+          <div class="data"><b>26</b><span>jun</span></div>
+          <div class="dia-info"><b>MOVIMENTO EP 05 — apanha do sal</b><span>06h00 chamada · diária completa · 4 pessoas</span><div class="loc">📍 Sesimbra</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ENTREGAS -->
+    <div class="tela" id="tela-entregas">
+      <div class="top">
+        <div><h1>Entregas</h1><p>O que sai da ilha esta semana. Marque ao concluir.</p></div>
+      </div>
+      <div class="painel" id="lista-entregas">
+        <div class="entrega"><input type="checkbox"><div><b>reia — corte final aprovado para export</b><span>Institucional 2026 · 4K + versão 1:1 redes</span></div><span class="prazo tarde">amanhã, 11 jun</span></div>
+        <div class="entrega"><input type="checkbox"><div><b>REDLEY — primeira versão EP 03 para feedback</b><span>Originais do Corre · link Vimeo privado</span></div><span class="prazo">16 jun</span></div>
+        <div class="entrega"><input type="checkbox"><div><b>VOCAÇÕES — legendas EN do Oleiro</b><span>Para submissão em festivais</span></div><span class="prazo">18 jun</span></div>
+        <div class="entrega"><input type="checkbox"><div><b>MOVIMENTO — teaser EP 05 para redes</b><span>45s vertical · Instagram + TikTok</span></div><span class="prazo">24 jun</span></div>
+        <div class="entrega"><input type="checkbox"><div><b>Backup LTO — projetos T1 2026</b><span>Arquivo frio · 2 cópias</span></div><span class="prazo">30 jun</span></div>
+      </div>
+    </div>
+
+    <!-- CLIENTES -->
+    <div class="tela" id="tela-clientes">
+      <div class="top">
+        <div><h1>Clientes</h1><p>Histórico e relação — quem volta, volta porque confia.</p></div>
+        <button class="btn" onclick="toast('Cliente adicionado (demo)')">+ Novo cliente</button>
+      </div>
+      <div class="cli-grid">
+        <div class="cli-card"><div class="nome">REDLEY</div><div class="desde">Cliente desde 2023</div><div class="nums"><div><b>3</b><span>projetos</span></div><div><b>€ 28k</b><span>faturado</span></div><div><b>EP 03</b><span>em curso</span></div></div></div>
+        <div class="cli-card"><div class="nome">sport tv</div><div class="desde">Cliente desde 2022</div><div class="nums"><div><b>12</b><span>episódios</span></div><div><b>€ 95k</b><span>faturado</span></div><div><b>T3?</b><span>em conversa</span></div></div></div>
+        <div class="cli-card"><div class="nome">EDP</div><div class="desde">Cliente desde 2021</div><div class="nums"><div><b>4</b><span>projetos</span></div><div><b>€ 61k</b><span>faturado</span></div><div><b>1</b><span>proposta ativa</span></div></div></div>
+        <div class="cli-card"><div class="nome">reia</div><div class="desde">Cliente desde 2024</div><div class="nums"><div><b>2</b><span>projetos</span></div><div><b>€ 14k</b><span>faturado</span></div><div><b>13 jun</b><span>próx. entrega</span></div></div></div>
+        <div class="cli-card"><div class="nome">Visit Madeira</div><div class="desde">Cliente desde 2023</div><div class="nums"><div><b>1</b><span>projeto</span></div><div><b>€ 11k</b><span>faturado</span></div><div><b>1</b><span>negociação</span></div></div></div>
+        <div class="cli-card"><div class="nome">Harley-Davidson PT</div><div class="desde">Cliente desde 2022</div><div class="nums"><div><b>2</b><span>projetos</span></div><div><b>€ 19k</b><span>faturado</span></div><div><b>1</b><span>proposta ativa</span></div></div></div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<div class="toast" id="toast"><span class="dot"></span><span id="toast-msg"></span></div>
+
+<script>
+// navegação entre telas
+function irPara(nome){
+  document.querySelectorAll('.side a.item[data-tela]').forEach(a => a.classList.toggle('on', a.dataset.tela === nome));
+  document.querySelectorAll('.tela').forEach(t => t.classList.toggle('on', t.id === 'tela-' + nome));
+  window.scrollTo({top:0});
+}
+document.querySelectorAll('[data-tela]').forEach(el => el.addEventListener('click', () => irPara(el.dataset.tela)));
+
+// checkboxes de entrega
+document.querySelectorAll('.entrega input').forEach(cb => {
+  cb.addEventListener('change', () => {
+    cb.closest('.entrega').classList.toggle('done', cb.checked);
+    if (cb.checked) toast('Entrega concluída ✅');
+  });
+});
+
+// toast
+let toastTimer;
+function toast(msg){
+  const t = document.getElementById('toast');
+  document.getElementById('toast-msg').textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2600);
+}
+</script>
+</body>
+</html>
